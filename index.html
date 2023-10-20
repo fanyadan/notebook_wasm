@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notebook App</title>
+</head>
+<body>
+    <script src="notebook.js"></script>
+    <script>
+        let notebook;
+        Module.onRuntimeInitialized = () => {
+            notebook = new Module.Notebook();
+        };
+
+        function addNote() {
+            const noteText = document.getElementById('noteInput').value;
+            if(noteText) {
+                notebook.addNote(noteText);
+                document.getElementById('noteInput').value = '';
+                displayNotes();
+            }
+        }
+
+        function displayNotes() {
+            const notesList = document.getElementById('notesList');
+            notesList.innerHTML = '';
+            for (let i = 0; i < notebook.noteCount(); i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = notebook.getNote(i);
+                notesList.appendChild(listItem);
+            }
+        }
+    </script>
+
+    <input type="text" id="noteInput">
+    <button onclick="addNote()">Add Note</button>
+    <ul id="notesList"></ul>
+</body>
+</html>
